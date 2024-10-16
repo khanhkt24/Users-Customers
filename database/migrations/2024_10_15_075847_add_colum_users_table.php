@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-  
+            $table->string('address')->after('created_at')->nullable();
+            $table->boolean('gender')->after('created_at')->default(true);
+            $table->string('phoneNumber')->after('created_at')->nullable();
         });
     }
 

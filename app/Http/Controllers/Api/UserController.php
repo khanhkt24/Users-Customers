@@ -38,6 +38,12 @@ class UserController extends Controller
                 'nullable',
                 Rule::in([0, 1])
             ],
+            'address'=> 'nullable',
+            'phoneNumber'=>'nullable|max:10',
+            'gender'     => [
+                'nullable',
+                Rule::in([0, 1])
+            ],
         ]);
 
         try {
@@ -81,10 +87,16 @@ class UserController extends Controller
                 'required',
                 'email',
                 'max:100',
-                Rule::unique('users')->ignore($user->id)
+                Rule::unique('users')->ignoreModel($user)
             ],
             'password'   => 'required|string|min:8|confirmed',
             'is_active'     => [
+                'nullable',
+                Rule::in([0, 1])
+            ],
+            'address'=> 'required',
+            'phoneNumber'=>['required','max:10',Rule::unique('users')->ignore($user->id)],
+            'gender'     => [
                 'nullable',
                 Rule::in([0, 1])
             ],

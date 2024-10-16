@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     const TYPE_ADMIN = 'admin';
 
@@ -29,6 +29,9 @@ class User extends Authenticatable
         'password',
         'image',
         'is_active',
+        'address',
+        'phoneNumber',
+        'gender',
     ];
 
     public $attriblades = [
@@ -55,12 +58,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function isAdmin(){
+    public function isAdmin()
+    {
         return $this->type == self::TYPE_ADMIN;
     }
 
-    public function isMember(){
+    public function isMember()
+    {
         return $this->type == self::TYPE_MEMBER;
     }
-
 }

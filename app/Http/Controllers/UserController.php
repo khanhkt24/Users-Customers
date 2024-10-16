@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withTrashed()->paginate(3);
+        $users = User::query()->paginate(5);
         return view("users.index", compact("users"));
     }
 
@@ -40,6 +40,12 @@ class UserController extends Controller
             'email'     => 'required|email|max:100',
             'password'   => 'required|string|min:8|confirmed',
             'is_active'     => [
+                'nullable',
+                Rule::in([0, 1])
+            ],
+            'address'=> 'nullable',
+            'phoneNumber'=>'nulladble|max:10',
+            'gender'     => [
                 'nullable',
                 Rule::in([0, 1])
             ],
@@ -95,6 +101,12 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($user->id)
             ],
             'is_active'     => [
+                'nullable',
+                Rule::in([0, 1])
+            ],
+            'address'=> 'required',
+            'phoneNumber'=>['required','max:10',Rule::unique('users')->ignore($user->id)],
+            'gender'     => [
                 'nullable',
                 Rule::in([0, 1])
             ],
@@ -214,7 +226,7 @@ class UserController extends Controller
 
         $users = User::where('name', 'LIKE', "%{$query}%")
             ->orWhere('email', 'LIKE', "%{$query}%")
-            ->get();
+            ->paginate(5);
 
         return view('users.index', compact('users'));
     }
@@ -232,10 +244,14 @@ class UserController extends Controller
                 $users->where('is_active', 1);
             } elseif ($filterBy === 'inactive') {
                 $users->where('is_active', 0);
+            }elseif ($filterBy === 'male') {
+                $users->where('gender', 1);
+            }elseif ($filterBy === 'female') {
+                $users->where('gender', 0);
             }
         }
 
-        $users = $users->get();
+        $users = $users->paginate(5);
 
         return view('users.index', compact('users', 'filterBy'));
     }
