@@ -51,7 +51,7 @@ class UserController extends Controller
             ],
         ]);
 
-        dd($data);
+
         try {
 
             if ($request->hasFile('image')) {
@@ -155,6 +155,7 @@ class UserController extends Controller
             if (!empty($user->image) && Storage::exists($user->image)) {
                 $backupPath = 'backup/images/' . basename($user->image);
                 Storage::copy($user->image, $backupPath); // Sao chép hình ảnh
+                $user->image = $backupPath;
             }
 
             // Xóa hình ảnh gốc
@@ -256,5 +257,18 @@ class UserController extends Controller
         return view('users.index', compact('users', 'filterBy'));
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_active = $request->input('is_active');
+        $user->save();
 
+        return back()->with('alooo','ok');
+    }
+
+    public function recycle(){
+        $users = User::onlyTrashed()->paginate(5);
+        return view('users.recycle', compact('users'));
+    }
 }
+

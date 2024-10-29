@@ -68,7 +68,7 @@
             @if (session()->has('success'))
                 <span class="btn btn-success">{{ session()->get('success') }}</span>
             @endif
-            <h1 class="text-center">Thêm tài khoản người dùng</h1>
+            <h1 class="text-center">Danh sách tài khoản người dùng đã xóa</h1>
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -78,11 +78,11 @@
                     </ul>
                 </div>
             @endif
-            <div class="d-flex justify-content-end mb-3">
+            {{-- <div class="d-flex justify-content-end mb-3">
                 <form action="{{ route('users.search') }}" method="GET" class="d-flex" style="width: 300px;">
                     <input type="text" name="query" placeholder="Tìm kiếm tài khoản..." class="form-control me-2"
                         aria-label="Tìm kiếm" value="{{ request()->query('query') }}">
-                    <button type="submit" class="btn btn-primary">Tìm</button>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
             </div>
 
@@ -98,7 +98,7 @@
                     </option>
                 </select>
                 <button type="submit" class="btn btn-primary">Lọc</button>
-            </form>
+            </form> --}}
 
             <table class="table table-default">
 
@@ -117,7 +117,7 @@
                         <tr>
                             <td>{{ $item->name }}</td>
                             <td>
-                                <img src="{{ \Storage::url($item->image) }}" width="100px" alt="">
+                                <img src="{{ \Storage::url('backup/' . $item->image) }}" width="100px" alt="">
                             </td>
                             <td>{{ $item->email }}</td>
                             <td>
@@ -144,7 +144,7 @@
                                     <a href="{{ route('users.restore', $item->id) }}" class="btn btn-warning">Khôi
                                         phục</a>
 
-                                    <a href="{{ route('users.edit', $item->id) }}" class="btn btn-primary">Chi tiết</a>
+                                    {{-- <a href="{{ route('users.edit', $item->id) }}" class="btn btn-primary">Chi tiết</a>
 
                                     <form action="{{ route('users.destroy', $item->id) }}" method="post">
                                         @csrf
@@ -152,22 +152,18 @@
                                         <button onclick="return confirm('Xóa k?')" type="submit"
                                             class="btn btn-danger">Xóa
                                             </button>
-                                    </form>
+                                    </form> --}}
 
-                                    {{-- <form action="{{ route('users.forceDelete', $item->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('Xóa vĩnh viễn?')" type="submit"
-                                        class="btn btn-danger">Xóa vĩnh viễn</button>
-                                </form> --}}
                                 </div>
                             </td>
                         </tr>
                     @endforeach
-
+                    <div class="mt-3">
+                        {{ $users->links('pagination::bootstrap-5') }}
+                    </div>
                 </tbody>
             </table>
-            {{ $users->links() }}
+
         </div>
 
     </main>
