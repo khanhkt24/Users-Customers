@@ -127,14 +127,12 @@ class UserController extends Controller
             $userImage = $user->image;
             $user->update($data);
 
-
-
             if ($request->hasFile('image') && !empty($userImage) && Storage::exists($userImage)) {
                 Storage::delete($userImage);
             }
 
-
             return back()->with('success', 'Sửa thành công');
+
         } catch (\Throwable $th) {
 
             if (!empty($data['image']) && Storage::exists($data['image'])) {
@@ -182,8 +180,11 @@ class UserController extends Controller
             $user->forceDelete();
 
             return redirect()->route('users.index')->with('success', 'Xóa thành công');
+
         } catch (\Throwable $th) {
+
             return back()->with("success", "Xóa không thành công");
+            
         }
     }
 
