@@ -69,8 +69,8 @@
                 <label for="" class="form-label">address</label>
                 <input type="text" class="form-control" name="address" id="" value="{{ $user->address }}"
                     placeholder="" />
-                    @error('phoneNumber')
-                    <span class="text-danger">{{$message}}</span>gender
+                    @error('address')
+                    <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
             <div class="mb-3">

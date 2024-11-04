@@ -105,7 +105,10 @@ class UserController extends Controller
                 Rule::in([0, 1])
             ],
             'address'=> 'required',
-            'phoneNumber'=>['required','max:10',Rule::unique('users')->ignore($user->id)],
+            'phoneNumber'=>[
+                'required',
+                'max:10',Rule::unique('users')->ignore($user->id)
+            ],
             'gender'     => [
                 'nullable',
                 Rule::in([0, 1])
@@ -184,7 +187,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
 
             return back()->with("success", "Xóa không thành công");
-            
+
         }
     }
 
